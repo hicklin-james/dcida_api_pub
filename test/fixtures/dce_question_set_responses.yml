@@ -1,0 +1,27 @@
+# == Schema Information
+#
+# Table name: dce_question_set_responses
+#
+#  id                  :integer          not null, primary key
+#  question_set        :integer
+#  response_value      :integer
+#  property_level_hash :json
+#  decision_aid_id     :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  block_number        :integer          default(1), not null
+#  is_opt_out          :boolean          default(FALSE)
+#  dce_question_set_id :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one: {}
+# column: value
+#
+two: {}
+#  column: value

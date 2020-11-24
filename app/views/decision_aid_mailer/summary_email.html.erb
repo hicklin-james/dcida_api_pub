@@ -1,0 +1,150 @@
+<table>
+  <tr style="padding-bottom: 20px;">
+    <td>
+      <%= @summary_items[:decision_aid_user].selected_option.summary_text.html_safe if @summary_items[:decision_aid_user] and @summary_items[:decision_aid_user].selected_option and @summary_items[:decision_aid_user].selected_option.summary_text %>
+    </td>
+  </tr>
+  <tr>
+    <table style="border: 1px solid #ddd; border-collapse: collapse; border-spacing: 0;">
+      <tr>
+        <th style="border: 1px solid #ddd;"></th>
+        <% @summary_items[:options].each do |o| %>
+          <th style="border: 1px solid #ddd; text-align: center;">
+            <% if o.media_file and o.media_file.image.exists? %>
+              <%= image_tag attachments[o.media_file.image.original_filename].url, style: "min-width: 200px; max-width: 280px; height: auto;" %>
+            <% end %>
+          </th>
+        <% end %>
+      </tr>
+      <tr>
+        <th style="border: 1px solid #ddd;"></th>
+        <% @summary_items[:options].each do |o| %>
+          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;" bgcolor="<%= o.id == @summary_items[:decision_aid_user].selected_option_id ? '#dff0d8' : '' %>">
+            <%= o.title if o.title %>
+          </th>
+        <% end %>
+      </tr>
+      <% @summary_items[:properties].each do |p| %>
+        <tr>
+          <th style="padding: 10px; border: 1px solid #ddd;">
+            <%= p.title if p.title %>
+          </th>
+          <% @summary_items[:options].each do |o| %>
+            <% op = @summary_items[:option_properties].find {|op| op.option_id == o.id and op.property_id == p.id} %>
+            <td style="padding: 10px; text-align: center; border: 1px solid #ddd;" bgcolor="<%= o.id == @summary_items[:decision_aid_user].selected_option_id ? '#dff0d8' : '' %>">
+              <% if op %>
+                <%= op.short_label if op.short_label %>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </tr>
+  <tr style="padding-bottom: 20px;">
+    <td>
+      <h3>About Me Responses</h3>
+    </td>
+  </tr>
+  <% @summary_items[:questions].select {|q| q.question_type == 'demographic'}.each do |q| %>
+    <tr style="padding-bottom: 20px;">
+      <table style="width: 100%; padding: 10px; border: 2px solid #ddd; border-collapse: collapse; border-spacing: 0; border-radius: 5px;">
+        <tr>
+          <td style="padding: 10px;">
+            <table>
+              <tr>
+                <td>
+                  <strong>Question:</strong>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= q.question_text.html_safe if q.question_text %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Response:</strong>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <% responses = q.decision_aid_user_responses.where(decision_aid_user_id: @summary_items[:decision_aid_user].id) %>
+                  <% if responses.length > 0 and response = responses.first %>
+                    <% if q.question_response_type == 'radio' %>
+                      <% if qr = response.question_response %>
+                        <% if q.question_responses.any?{|qr| qr.is_correct_value == true} %>  
+                          <% if qr.is_correct_value %>
+                            <span style="display: inline-block; padding: 4px; background-color: #5cb85c; margin-right: 5px; color: white; font-size: 0.8em;"><strong>Correct!</strong></span>
+                          <% else %>
+                            <span style="display: inline-block; padding: 4px; background-color: #f0ad4e; margin-right: 5px; color: white; font-size: 0.8em;"><strong>Incorrect!</strong></span>
+                          <% end %>
+                        <% end %>
+                        <%= qr.question_response_value %>
+                      <% end %>
+                    <% else %>
+                      <%= response.response_value %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </tr>
+  <% end %>
+  <tr style="padding-bottom: 20px;">
+    <td>
+      <h3>Quiz Responses</h3>
+    </td>
+  </tr>
+  <% @summary_items[:questions].select {|q| q.question_type == 'quiz'}.each do |q| %>
+    <tr style="padding-bottom: 20px;">
+      <table style="width: 100%; padding: 10px; border: 2px solid #ddd; border-collapse: collapse; border-spacing: 0; border-radius: 5px;">
+        <tr>
+          <td style="padding: 10px;">
+            <table>
+              <tr>
+                <td>
+                  <strong>Question:</strong>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= q.question_text.html_safe if q.question_text %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Response:</strong>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <% responses = q.decision_aid_user_responses.where(decision_aid_user_id: @summary_items[:decision_aid_user].id) %>
+                  <% if responses.length > 0 and response = responses.first %>
+                    <% if q.question_response_type == 'radio' %>
+                      <% if qr = response.question_response %>
+                        <% if q.question_responses.any?{|qr| qr.is_correct_value == true} %>
+                          <% if qr.is_correct_value %>
+                            <span style="display: inline-block; padding: 4px; background-color: #5cb85c; margin-right: 5px;">Correct!</span>
+                          <% else %>
+                            <span style="display: inline-block; padding: 4px; background-color: #f0ad4e; margin-right: 5px; color: white; font-size: 0.8em;"><strong>Incorrect!</strong></span>
+                          <% end %>
+                        <% end %>
+                        <%= qr.question_response_value %>
+                      <% end %>
+                    <% else %>
+                      <%= response.response_value %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </tr>
+  <% end %>
+</table>

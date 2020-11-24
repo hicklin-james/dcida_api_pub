@@ -1,0 +1,5 @@
+redis: redis-server
+sidekiq: RAILS_ENV=test bundle exec sidekiq -e ${RAILS_ENV:-e2e_test} -C config/sidekiq.yml
+server: RAILS_ENV=test bundle exec rails s -e e2e_test -b 127.0.0.1
+websocketrails: RAILS_ENV=e2e_test bin/websockets
+

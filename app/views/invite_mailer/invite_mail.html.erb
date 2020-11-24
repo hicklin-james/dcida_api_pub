@@ -1,0 +1,14 @@
+<table cellspacing="20" cellpadding="0">
+  <tr>
+    <td>You have been invited to create a user on DCIDA! Please click on the link below to access the signup page. You have 2 days from receiving this email to create your account, otherwise the token will expire and you will need to contact the site administrator to request a new activation email.
+  </tr>
+  <tr>
+    <td><a href="<%=@request_origin + '/#/user_create?createToken=' + @user_authentication.token + '&email=' + @user_authentication.email %>">Create DCIDA User</a></td>
+  </tr>
+  <tr>
+    <td>-----------------------------------------------------</td>
+  </tr>
+  <tr>
+    <td>THIS IS NOT A MONITORED EMAIL ADDRESS - DO NOT REPLY TO IT.</td>
+  </tr>
+</table>

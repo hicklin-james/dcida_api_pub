@@ -1,0 +1,10 @@
+# This file is the reek configuration file
+
+# Increase TooManyStatements max to 10 lines
+# instead of 5
+
+TooManyStatements:
+  max_statements: 10
+
+LongParameterList:
+  max_params: 5
