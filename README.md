@@ -34,7 +34,7 @@ test:
   1. `bundle exec rake db:create`
   2. `bundle exec rake db:migrate`
 3. Create an admin superuser
-  1. `bundle exec rake admin:create_user['admin@example.com','my_fun_password',true]`
+  1. `bundle exec rake "admin:create_user['admin@example.com','my_fun_password',true]"`
     - The parameters to admin:create_user are:
       - email: string (required)
       - password: string (required)
@@ -42,6 +42,6 @@ test:
 4. Start the development server
   1. `foreman start`
 
-At this point, you should have Rails running on WEBrick at http://localhost:3000, along with Redis running in standalone mode and Sidekiq booted alongside Rails.
+At this point, you should have Rails running on Thin at http://localhost:3000, along with Redis running in standalone mode and Sidekiq booted alongside Rails.
 
 

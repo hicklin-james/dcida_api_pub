@@ -4,7 +4,7 @@ namespace :admin do
     args.with_defaults(:user_email => "admin@tt.com", :user_password => "test123", :is_superadmin => false)
     if args[:user_email] and args[:user_password] and args[:is_superadmin]
       if User.where(email: args[:user_email]).length == 0
-        User.create(email: args[:user_email], password: args[:user_password], is_superadmin: args[:is_superadmin])
+        User.create!(email: args[:user_email], password: args[:user_password], password_confirmation: args[:user_password], terms_accepted: true, is_superadmin: args[:is_superadmin], first_name: "Admin", last_name: "User")
         puts "User successfully created with email: #{args[:user_email]}".green
       else
         puts "User already exists with email: #{args[:user_email]}".red
