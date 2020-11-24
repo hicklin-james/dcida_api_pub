@@ -34,7 +34,7 @@ test:
   1. `bundle exec rake db:create`
   2. `bundle exec rake db:migrate`
 3. Create an admin superuser
-  1. `bundle exec rake "admin:create_user['admin@example.com','my_fun_password',true]"`
+  1. `bundle exec rake "admin:create_user[admin@example.com,my_fun_password,true]"`
     - The parameters to admin:create_user are:
       - email: string (required)
       - password: string (required)
