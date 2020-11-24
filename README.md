@@ -12,16 +12,34 @@ I recommend using homebrew to manage as many dependencies as you can (http://bre
 * Foreman 0.78.0 (`gem install foreman`)
 
 ## API Setup
-1. Create the database, and run database migrations
+1. Create a file called `database.yml` in the `config` directory with the following format:
+```
+development:
+  adapter: postgresql
+  database: DATABASE_NAME
+  username: DATABASE_USER
+  password: DATABASE_PASSWORD
+  host: "localhost"
+  port: DATABASE_PORT
+
+test:
+  adapter: postgresql
+  database: TEST_DATABASE_NAME_<%= ENV['TEST_ENV_NUMBER'] %>
+  username: TEST_DATABASE_USER
+  password: TEST_DATABASE_PASSWORD
+  host: "localhost"
+  port: DATABASE_PORT
+```
+2. Create the database, and run database migrations
   1. `bundle exec rake db:create`
   2. `bundle exec rake db:migrate`
-2. Create an admin superuser
+3. Create an admin superuser
   1. `bundle exec rake admin:create_user['admin@example.com','my_fun_password',true]`
     - The parameters to admin:create_user are:
       - email: string (required)
       - password: string (required)
       - is_superadmin: bool (required) - superadmin has full control over all decision aids
-3. Start the development server
+4. Start the development server
   1. `foreman start`
 
 At this point, you should have Rails running on WEBrick at http://localhost:3000, along with Redis running in standalone mode and Sidekiq booted alongside Rails.
